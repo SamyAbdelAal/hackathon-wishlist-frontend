@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { View, Image } from "react-native";
 import { Button } from "react-native-paper";
 import { Icon, Text } from "native-base";
-
-export default class WishItemCard extends Component {
+import { connect } from "react-redux";
+import * as actionCreators from "../../store/actions";
+class WishItemCard extends Component {
   render() {
     let { item } = this.props;
 
@@ -57,7 +58,7 @@ export default class WishItemCard extends Component {
           ></View>
         </View>
         <Button
-          //   onPress={closeModal}
+          onPress={() => this.props.deleteWishItems(item.item.id)}
           //   transparent
           style={{
             width: 60,
@@ -78,3 +79,12 @@ export default class WishItemCard extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  userInfo: state.auth.userInfo
+});
+const mapDispatchToProps = dispatch => ({
+  deleteWishItems: itemId => dispatch(actionCreators.deleteWishItems(itemId))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(WishItemCard);

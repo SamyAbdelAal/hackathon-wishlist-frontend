@@ -58,7 +58,7 @@ class Login extends Component {
             <Item style={{ width: "70%", alignSelf: "center" }}>
               <Text style={{ color: "#fff" }}>Password</Text>
               <Input
-                password={true}
+                secureTextEntry={true}
                 style={{ color: "#fff" }}
                 onChangeText={password => this.setState({ password })}
               />

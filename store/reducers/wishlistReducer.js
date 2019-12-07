@@ -15,7 +15,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         wishItems: action.payload
       };
-
+    case actionTypes.DELETE_ITEM:
+      return {
+        ...state,
+        wishItems: state.wishItems.filter(item => item.id !== action.payload.id)
+      };
     default:
       return state;
   }
