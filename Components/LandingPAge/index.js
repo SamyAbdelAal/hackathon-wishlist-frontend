@@ -8,7 +8,7 @@ import * as actionCreators from "../../store/actions";
 
 class LandingPage extends Component {
   componentDidMount() {
-    this.props.checkForExpiredToken();
+    this.props.checkForExpiredToken(this.props.navigation);
   }
   state = { isVisible: false };
   render() {

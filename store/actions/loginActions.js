@@ -4,12 +4,15 @@ import * as SecureStore from "expo-secure-store";
 
 import * as actionTypes from "./actionTypes";
 import { showMessage } from "react-native-flash-message";
+import { getWishItems } from "./wishlistActions";
 
 const instance = axios.create({
-  baseURL: "http://192.168.150.210:8000/"
+  baseURL: "http://127.0.0.1:7000/" //"http://192.168.150.210:8000/"
 });
 
 export const setAuthToken = token => {
+  console.log("token", token);
+
   if (token) {
     return SecureStore.setItemAsync("token", token)
       .then(
@@ -50,18 +53,21 @@ export const checkForExpiredToken = navigation => {
         const currentTime = Date.now() / 1000;
         const user = jwt_decode(token);
         if (user.exp >= currentTime && user.tmp_pwd !== "1") {
-          setAuthToken(token).then(() =>
-            dispatch(
-              setCurrentUser({
-                user: user,
-                message: "Logged-in Successfully"
-              })
+          setAuthToken(token)
+            .then(() =>
+              dispatch(
+                setCurrentUser({
+                  user: user,
+                  message: "Logged-in Successfully"
+                })
+              )
             )
-          );
-
-          // .then(() => {
-          //   navigation.navigate("List");
-          // });
+            .then(() =>
+              dispatch(getWishItems(getState().auth.userInfo.user_id))
+            )
+            .then(() => {
+              navigation.navigate("Wishlist");
+            });
         } else {
           dispatch(logout(navigation));
         }
@@ -111,6 +117,7 @@ export const login = (userData, closeModal, showErrorMessage, navigation) => {
           dispatch(setCurrentUser(decodedUser));
         }
       })
+      .then(() => dispatch(getWishItems(getState().auth.userInfo.user_id)))
       .then(() => {
         if (getState().auth.userInfo) {
           navigation.navigate("Wishlist");
@@ -128,7 +135,7 @@ export const login = (userData, closeModal, showErrorMessage, navigation) => {
         // if (err.response.includes("400")) {
         //   err.response = "User or password are incorrect";
         // }
-        console.log("login error", err.response.data);
+        console.log("login error", err.response);
         showErrorMessage();
         // showMessage({
         //   type: "danger",

@@ -14,7 +14,7 @@ export default class Header extends Component {
       <SafeAreaView
         forceInset={{ top: "always", bottom: "never" }}
         style={{
-          height: "35%"
+          height: "15%"
         }}
       >
         <View style={styles.container}>
@@ -34,15 +34,11 @@ export default class Header extends Component {
             {title}{" "}
           </Text>
           <Button
-            onPress={() => actionFunction()}
+            onPress={() => navigation.push("wishlist")}
             transparent
             style={{ right: "5%", position: "absolute" }}
           >
-            <Icon
-              name="pluscircleo"
-              type="AntDesign"
-              style={{ color: "#fff" }}
-            />
+            <Icon name="profile" type="AntDesign" style={{ color: "#fff" }} />
           </Button>
         </View>
       </SafeAreaView>

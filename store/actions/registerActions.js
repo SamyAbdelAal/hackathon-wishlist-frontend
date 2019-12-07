@@ -3,7 +3,7 @@ import Axios from "axios";
 import { showMessage } from "react-native-flash-message";
 
 const instance = Axios.create({
-  baseURL: "http://192.168.150.210:8000/"
+  baseURL: "http://127.0.0.1:7000/" //"http://192.168.150.210:8000/"
 });
 
 export const registerUser = (
