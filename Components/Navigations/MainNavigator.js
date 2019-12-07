@@ -4,11 +4,13 @@ import Animated, { Easing } from "react-native-reanimated";
 import LandingPAge from "../LandingPAge";
 import Wishlist from "../Wishlist";
 import WebView from "../WebView";
+import OthersWishlist from "../OthersWishlist ";
 export default FluidNavigator(
   {
-    LandingPAge: LandingPAge,
+    LandingPAge: { screen: LandingPAge, path: "landing/" },
     Wishlist: Wishlist,
-    WebView: WebView
+    WebView: WebView,
+    OthersWishlist: { screen: OthersWishlist, path: "userWishlist/" }
   },
 
   {

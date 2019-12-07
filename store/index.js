@@ -9,32 +9,18 @@ import omit from "lodash/omit";
 const initialState = {};
 const middleware = [thunk];
 
-// let blacklistTransform = createTransform((inboundState, key) => {
-//   if (key === "campaignC") {
-//     inboundState = { ...inboundState, loadingStoryAdsArray: [] };
-//     return omit(inboundState, [
-//       "loadingObj",
-//       "loadingDesign",
-//       "loadingDetail",
-//       "loading",
-//       "videoUrlLoading",
-//       "coverLoading",
-//       "instagramPostLoading",
-//       "getWebProductsLoading",
-//       "webUploadLinkMediaLoading",
-//       "collectionLoader",
-//       "loadingMoreInstaPost",
-//       "campaignProgressStarted"
-//     ]);
-//   } else {
-//     return inboundState;
-//   }
-// });
+let blacklistTransform = createTransform((inboundState, key) => {
+  if (key === "wishlistReducer") {
+    return omit(inboundState, ["otherUserWishList"]);
+  } else {
+    return inboundState;
+  }
+});
 const persistConfig = {
-  key: "root",
+  key: "root2",
   storage: AsyncStorage,
-  whitelist: ["wishlist"]
-  //   transforms: [blacklistTransform]
+  whitelist: ["wishlistReducer", "auth"],
+  transforms: [blacklistTransform]
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

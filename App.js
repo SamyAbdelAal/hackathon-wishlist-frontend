@@ -8,6 +8,7 @@ import AppNavigator from "./Components/Navigations/index";
 import { LinearGradient } from "expo-linear-gradient";
 import FlashMessage from "react-native-flash-message";
 import { ActivityIndicator } from "react-native-paper";
+import { Linking } from "expo";
 
 export default function App() {
   renderLoading = () => (
@@ -26,6 +27,8 @@ export default function App() {
       <ActivityIndicator size="large" />
     </View>
   );
+  const prefix = Linking.makeUrl("/");
+
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor} loading={this.renderLoading()}>
@@ -41,7 +44,9 @@ export default function App() {
         <LinearGradient
           colors={["#6200FF", "#8900FF"]}
           locations={[1, 0.3]}
-          style={{ ...StyleSheet.absoluteFillObject }}
+          style={{
+            ...StyleSheet.absoluteFillObject
+          }}
         />
         <View
           style={{
@@ -60,7 +65,7 @@ export default function App() {
             justifyContent: "center"
           }}
         >
-          <AppNavigator />
+          <AppNavigator uriPrefix={prefix} />
         </View>
         <FlashMessage icon="auto" duration={4000} position="top" />
       </PersistGate>

@@ -27,7 +27,7 @@ class WishItemCard extends Component {
                   title: item.item.name,
                   url: item.item.url
                 })
-              : showMessage({ message: "No url provided.", type: "info" })
+              : showMessage({ message: "No url provided", type: "info" })
           }
         >
           <Image
@@ -71,7 +71,9 @@ class WishItemCard extends Component {
           </View>
         </TouchableOpacity>
         <Button
-          onPress={() => this.props.deleteWishItems(item.item.id)}
+          onPress={() =>
+            this.props.deleteWishItems(item.item.id, this.props.sameUser)
+          }
           //   transparent
           style={{
             width: 60,
@@ -97,7 +99,8 @@ const mapStateToProps = state => ({
   userInfo: state.auth.userInfo
 });
 const mapDispatchToProps = dispatch => ({
-  deleteWishItems: itemId => dispatch(actionCreators.deleteWishItems(itemId))
+  deleteWishItems: (itemId, sameUser) =>
+    dispatch(actionCreators.deleteWishItems(itemId, sameUser))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WishItemCard);

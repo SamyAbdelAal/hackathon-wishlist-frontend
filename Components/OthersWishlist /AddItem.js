@@ -41,7 +41,7 @@ class AddItem extends Component {
 
   formatMedia() {
     var body = new FormData();
-    if (this.state.image && this.state.image !== "//") {
+    if (this.state.image !== "//") {
       let res = this.state.image.split("/");
       res = res[res.length - 1];
       let format = res.split(".");
@@ -63,7 +63,11 @@ class AddItem extends Component {
   }
   submit = () => {
     if (this.state.name !== "") {
-      this.props.addWishItem(this.formatMedia(), this.props.closeModal);
+      this.props.addWishItem(
+        this.formatMedia(),
+        this.props.closeModal,
+        this.props.sameUser
+      );
     } else {
       this.refs.ModalRef.showMessage({
         message: "Please add a name",
@@ -91,8 +95,6 @@ class AddItem extends Component {
           <Item style={{ width: "70%", alignSelf: "center" }}>
             <Text style={{ color: "#fff" }}>Nmae</Text>
             <Input
-              autoCapitalize={"none"}
-              autoCorrect={false}
               style={{ color: "#fff" }}
               onChangeText={name => this.setState({ name })}
             />
@@ -100,8 +102,6 @@ class AddItem extends Component {
           <Item style={{ width: "70%", alignSelf: "center" }}>
             <Text style={{ color: "#fff" }}>Url</Text>
             <Input
-              autoCapitalize={"none"}
-              autoCorrect={false}
               style={{ color: "#fff" }}
               onChangeText={url => this.setState({ url })}
             />
@@ -189,8 +189,8 @@ class AddItem extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  addWishItem: (item, closeModal) =>
-    dispatch(actionCreators.addWishItem(item, closeModal))
+  addWishItem: (item, closeModal, sameUser) =>
+    dispatch(actionCreators.addWishItem(item, closeModal, sameUser))
 });
 
 export default connect(null, mapDispatchToProps)(AddItem);

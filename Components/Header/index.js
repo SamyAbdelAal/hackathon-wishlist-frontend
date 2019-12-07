@@ -7,9 +7,12 @@ import {
 } from "react-native-responsive-screen";
 import { SafeAreaView } from "react-navigation";
 import { Button } from "native-base";
-export default class Header extends Component {
+import { connect } from "react-redux";
+import * as actionCreators from "../../store/actions";
+class Header extends Component {
   render() {
     let { title, navigation, actionFunction } = this.props;
+
     return (
       <SafeAreaView
         forceInset={{ top: "always", bottom: "never" }}
@@ -34,7 +37,14 @@ export default class Header extends Component {
             {title}{" "}
           </Text>
           <Button
-            onPress={() => navigation.push("Wishlist")}
+            onPress={() => {
+              if (this.props.userInfo) {
+                this.props.getWishItems(this.props.userInfo.user_id);
+
+                navigation.state.routeName !== "Wishlist" &&
+                  navigation.push("Wishlist");
+              } else navigation.navigate("LandingPAge");
+            }}
             transparent
             style={{ right: "5%", position: "absolute" }}
           >
@@ -45,6 +55,17 @@ export default class Header extends Component {
     );
   }
 }
+const mapStateToProps = state => ({
+  userInfo: state.auth.userInfo,
+  wishItems: state.wishlistReducer.wishItems
+});
+const mapDispatchToProps = dispatch => ({
+  getWishItems: userId => dispatch(actionCreators.getWishItems(userId)),
+
+  logout: navigation => dispatch(actionCreators.logout(navigation))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
 
 const styles = StyleSheet.create({
   container: {

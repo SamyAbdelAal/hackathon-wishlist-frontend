@@ -52,13 +52,16 @@ class Login extends Component {
               <Text style={{ color: "#fff" }}>Username</Text>
               <Input
                 style={{ color: "#fff" }}
-                onChangeText={username => this.setState({ username })}
+                onChangeText={username =>
+                  this.setState({ username: username.toLowerCase() })
+                }
               />
             </Item>
             <Item style={{ width: "70%", alignSelf: "center" }}>
               <Text style={{ color: "#fff" }}>Password</Text>
               <Input
                 secureTextEntry={true}
+                autoCapitalize={false}
                 style={{ color: "#fff" }}
                 onChangeText={password => this.setState({ password })}
               />

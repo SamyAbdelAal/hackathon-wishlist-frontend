@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { View, FlatList } from "react-native";
+import { View, FlatList, Clipboard } from "react-native";
 import { Text, Button, Icon } from "native-base";
 import Header from "../Header";
 import AddItem from "./AddItem";
 import { connect } from "react-redux";
 import WishItemCard from "./WishItemCard";
+import { showMessage } from "react-native-flash-message";
 
 class Wishlist extends Component {
   state = { isVisible: false };
@@ -16,10 +17,19 @@ class Wishlist extends Component {
       item={item}
     />
   );
+  onShare = async () => {
+    Clipboard.setString(
+      `exp://127.0.0.1:19004/--/main_navigator/userWishlist/?userId=${this.props.userInfo.user_id}`
+    );
+    showMessage({ message: "Share link copied to clipboard", type: "success" });
+  };
   render() {
     return (
       <View style={{ height: "100%" }}>
-        <Header title={"wishlist"} navigation={this.props.navigation} />
+        <Header
+          title={`${this.props.userInfo.username} wishlist`}
+          navigation={this.props.navigation}
+        />
         <FlatList
           contentContainerStyle={{
             paddingBottom: "2%",
@@ -32,7 +42,17 @@ class Wishlist extends Component {
           keyExtractor={item => item.id}
           renderItem={item => this.renderItem(item)}
         />
-
+        <Button
+          transparent
+          style={{ width: "20%", bottom: "25%" }}
+          onPress={this.onShare}
+        >
+          <Icon
+            name="sharealt"
+            type="AntDesign"
+            style={{ color: "#fff", fontSize: 30 }}
+          />
+        </Button>
         <AddItem
           closeModal={() => this.setState({ isVisible: false })}
           isVisible={this.state.isVisible}

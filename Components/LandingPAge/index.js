@@ -8,13 +8,13 @@ import * as actionCreators from "../../store/actions";
 
 class LandingPage extends Component {
   componentDidMount() {
-    this.props.checkForExpiredToken(this.props.navigation);
+    if (!this.props.otherUserWishList || !this.props.otherUserWishList[0])
+      this.props.checkForExpiredToken(this.props.navigation);
   }
   state = { isVisible: false };
   render() {
     let { isVisible } = this.state;
     let { userInfo } = this.props;
-    console.log("userInfo", userInfo);
 
     return (
       <View>
@@ -112,7 +112,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  userInfo: state.auth.userInfo
+  userInfo: state.auth.userInfo,
+  otherUserWishList: state.wishlistReducer.otherUserWishList
 });
 const mapDispatchToProps = dispatch => ({
   checkForExpiredToken: navigation =>

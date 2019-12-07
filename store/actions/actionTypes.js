@@ -3,3 +3,6 @@ export const LOGOUT_USER = "LOGOUT_USER";
 export const ADD_ITEM = "ADD_ITEM";
 export const GET_ITEMS = "GET_ITEMS";
 export const DELETE_ITEM = "DELETE_ITEM";
+export const ADD_ITEM_SAMEUSER = "ADD_ITEM_SAMEUSER";
+export const GET_ITEMS_OTHERUSER = "GET_ITEMS_OTHERUSER";
+export const DELETE_ITEM_SAMEUSER = "DELETE_ITEM_SAMEUSER";
