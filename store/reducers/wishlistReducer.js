@@ -44,6 +44,30 @@ const reducer = (state = initialState, action) => {
         ...state,
         otherUserWishList: filterWishlistOther
       };
+    case actionTypes.UPDATE_ITEM:
+      let newItemsChecked = state.wishItems.map(item => {
+        if (item.id === action.payload.id) {
+          return { ...item, ...action.payload };
+        } else return item;
+      });
+
+      return {
+        ...state,
+        wishItems: [...newItemsChecked]
+      };
+    case actionTypes.UPDATE_ITEM_OTHERUSER:
+      console.log("UPDATE_ITEM_OTHERUSER", action.payload);
+
+      let newItemsOtherChecked = state.otherUserWishList.map(item => {
+        if (item.id === action.payload.id) {
+          return { ...item, ...action.payload };
+        } else return item;
+      });
+
+      return {
+        ...state,
+        otherUserWishList: [...newItemsOtherChecked]
+      };
     default:
       return state;
   }

@@ -8,13 +8,14 @@ import * as actionCreators from "../../store/actions";
 
 class LandingPage extends Component {
   componentDidMount() {
-    if (!this.props.otherUserWishList || !this.props.otherUserWishList[0])
+    if (!this.props.otherUserWishList)
       this.props.checkForExpiredToken(this.props.navigation);
   }
   state = { isVisible: false };
   render() {
     let { isVisible } = this.state;
     let { userInfo } = this.props;
+    console.log("this.props.otherUserWishList", this.props.otherUserWishList);
 
     return (
       <View>

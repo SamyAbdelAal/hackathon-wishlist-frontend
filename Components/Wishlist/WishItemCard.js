@@ -57,7 +57,10 @@ class WishItemCard extends Component {
             >
               {item.item.name}
             </Text>
-            <View
+            <TouchableOpacity
+              onPress={() =>
+                this.props.updateCheckedItem(item.item.id, !item.item.checked)
+              }
               style={{
                 borderWidth: 1,
                 width: 20,
@@ -65,9 +68,35 @@ class WishItemCard extends Component {
                 borderColor: "#000",
                 alignSelf: "flex-end",
                 right: 15,
-                borderRadius: 30
+                borderRadius: 30,
+                alignItems: "center",
+                zIndex: 10
               }}
-            ></View>
+            >
+              {item.item.checked && (
+                <Icon
+                  style={{ color: "#fff", fontSize: 15 }}
+                  name="check"
+                  type="FontAwesome"
+                />
+              )}
+            </TouchableOpacity>
+            {item.item.checked && (
+              <Text
+                uppercase
+                style={{
+                  padding: 5,
+                  fontSize: 12,
+                  // fontWeight: "bold",
+                  bottom: "25%",
+                  right: "20%",
+                  textAlign: "right",
+                  color: "#fff"
+                }}
+              >
+                {item.item.checker ? item.item.checker : "Anonymous"}
+              </Text>
+            )}
           </View>
         </TouchableOpacity>
         <Button
@@ -97,7 +126,9 @@ const mapStateToProps = state => ({
   userInfo: state.auth.userInfo
 });
 const mapDispatchToProps = dispatch => ({
-  deleteWishItems: itemId => dispatch(actionCreators.deleteWishItems(itemId))
+  deleteWishItems: itemId => dispatch(actionCreators.deleteWishItems(itemId)),
+  updateCheckedItem: (itemId, checked) =>
+    dispatch(actionCreators.updateCheckedItem(itemId, checked))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WishItemCard);

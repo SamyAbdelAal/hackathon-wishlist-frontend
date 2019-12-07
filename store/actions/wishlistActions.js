@@ -102,3 +102,48 @@ export const deleteWishItems = (itemId, sameUser) => {
       });
   };
 };
+
+export const updateCheckedItem = (itemId, checked, otherUser) => {
+  console.log("other", otherUser);
+
+  return (dispatch, getState) => {
+    instance()
+      .put(`check/${itemId}/`, {
+        checked,
+        checker:
+          checked && getState().auth.userInfo
+            ? getState().auth.userInfo.username
+            : null
+      })
+      .then(res => res.data)
+      .then(data => {
+        console.log("update", data);
+        dispatch({ type: actionTypes.UPDATE_ITEM, payload: data });
+        if (otherUser) {
+          dispatch({ type: actionTypes.UPDATE_ITEM_OTHERUSER, payload: data });
+        }
+        // if (sameUser) {
+        //   dispatch({
+        //     type: actionTypes.DELETE_ITEM_SAMEUSER,
+        //     payload: itemId
+        //   });
+        // }
+      })
+      .catch(err => {
+        console.log("update error", err.response || err);
+
+        showMessage({
+          message:
+            err.response.data.detail === "You must be the owner."
+              ? "Not allowed to perform such action"
+              : err.response.data.detail ===
+                "Authentication credentials were not provided."
+              ? "Please sign in"
+              : "Something went wrong, please try again.",
+          type: "danger",
+          description: err.response.data.detail,
+          position: "top"
+        });
+      });
+  };
+};
