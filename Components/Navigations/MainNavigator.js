@@ -3,12 +3,12 @@ import { FluidNavigator } from "react-navigation-fluid-transitions";
 import Animated, { Easing } from "react-native-reanimated";
 import LandingPAge from "../LandingPAge";
 import Wishlist from "../Wishlist";
-import Header from "../Header";
+import WebView from "../WebView";
 export default FluidNavigator(
   {
     LandingPAge: LandingPAge,
     Wishlist: Wishlist,
-    Header: Header
+    WebView: WebView
   },
 
   {

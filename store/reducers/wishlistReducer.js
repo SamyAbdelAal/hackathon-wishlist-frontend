@@ -6,9 +6,12 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ADD_ITEM:
+      console.log("action.payload", state.wishItems);
+
+      let newItems = state.wishItems.concat([action.payload]);
       return {
         ...state,
-        wishItems: [...state.wishItems, action.payload]
+        wishItems: newItems.reverse()
       };
     case actionTypes.GET_ITEMS:
       return {
@@ -16,9 +19,15 @@ const reducer = (state = initialState, action) => {
         wishItems: action.payload
       };
     case actionTypes.DELETE_ITEM:
+      console.log("action.payload", action.payload);
+      console.log("state.wishItems", state.wishItems);
+
+      let filterWishlist = state.wishItems.filter(
+        item => item.id !== action.payload
+      );
       return {
         ...state,
-        wishItems: state.wishItems.filter(item => item.id !== action.payload.id)
+        wishItems: filterWishlist
       };
     default:
       return state;

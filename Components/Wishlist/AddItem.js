@@ -61,13 +61,9 @@ class AddItem extends Component {
     });
     return body;
   }
-
   submit = () => {
     if (this.state.name !== "") {
-      this.props.addWishItem(
-        this.formatMedia(),
-        this.setState({ isVisible: false })
-      );
+      this.props.addWishItem(this.formatMedia(), this.props.closeModal);
     } else {
       this.refs.ModalRef.showMessage({
         message: "Please add a name",
@@ -78,7 +74,6 @@ class AddItem extends Component {
 
   render() {
     let { isVisible, closeModal } = this.props;
-    console.log(this.state.image);
 
     return (
       <ReactNativeModal
@@ -190,7 +185,8 @@ class AddItem extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  addWishItem: item => dispatch(actionCreators.addWishItem(item))
+  addWishItem: (item, closeModal) =>
+    dispatch(actionCreators.addWishItem(item, closeModal))
 });
 
 export default connect(null, mapDispatchToProps)(AddItem);

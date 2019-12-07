@@ -34,7 +34,7 @@ export default class Header extends Component {
             {title}{" "}
           </Text>
           <Button
-            onPress={() => navigation.push("wishlist")}
+            onPress={() => navigation.push("Wishlist")}
             transparent
             style={{ right: "5%", position: "absolute" }}
           >

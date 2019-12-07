@@ -6,9 +6,10 @@ import * as actionTypes from "./actionTypes";
 import { showMessage } from "react-native-flash-message";
 import { getWishItems } from "./wishlistActions";
 
-const instance = axios.create({
-  baseURL: "http://127.0.0.1:7000/" //"http://192.168.150.210:8000/"
-});
+const instance = () =>
+  axios.create({
+    baseURL: "http://127.0.0.1:7000/" //"http://192.168.150.210:8000/"
+  });
 
 export const setAuthToken = token => {
   console.log("token", token);
@@ -84,7 +85,7 @@ export const login = (userData, closeModal, showErrorMessage, navigation) => {
     //   type: actionTypes.SET_LOADING_USER,
     //   payload: true
     // });
-    instance
+    instance()
       .post("signin/", userData)
       .then(res => {
         return res.data;

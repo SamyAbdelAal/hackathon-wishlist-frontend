@@ -9,14 +9,20 @@ import WishItemCard from "./WishItemCard";
 class Wishlist extends Component {
   state = { isVisible: false };
 
-  renderItem = item => <WishItemCard key={item.id} item={item} />;
+  renderItem = item => (
+    <WishItemCard
+      key={item.id}
+      navigation={this.props.navigation}
+      item={item}
+    />
+  );
   render() {
     return (
       <View style={{ height: "100%" }}>
         <Header title={"wishlist"} navigation={this.props.navigation} />
         <FlatList
           contentContainerStyle={{
-            // paddingBottom: 30,
+            paddingBottom: "2%",
             height: "30%"
             // flex: 1
           }}

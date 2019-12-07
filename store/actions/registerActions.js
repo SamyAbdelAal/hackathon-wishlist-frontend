@@ -2,9 +2,10 @@ import { setAuthToken, setCurrentUser, login } from "./loginActions";
 import Axios from "axios";
 import { showMessage } from "react-native-flash-message";
 
-const instance = Axios.create({
-  baseURL: "http://127.0.0.1:7000/" //"http://192.168.150.210:8000/"
-});
+const instance = () =>
+  Axios.create({
+    baseURL: "http://127.0.0.1:7000/" //"http://192.168.150.210:8000/"
+  });
 
 export const registerUser = (
   userInfo,
@@ -15,7 +16,7 @@ export const registerUser = (
   return (dispatch, getState) => {
     console.log("userInfo", userInfo);
 
-    instance
+    instance()
       .post(`signup/`, userInfo)
       .then(res => {
         return res.data;

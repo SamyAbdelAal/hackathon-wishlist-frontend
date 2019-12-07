@@ -2,29 +2,28 @@ import { setAuthToken, setCurrentUser, login } from "./loginActions";
 import axios from "axios";
 import { showMessage } from "react-native-flash-message";
 import * as actionTypes from "./actionTypes";
-const instance = axios.create({
-  baseURL: "http://127.0.0.1:7000/" //"http://192.168.150.210:8000/"
-});
+const instance = () =>
+  axios.create({
+    baseURL: "http://127.0.0.1:7000/" //"http://192.168.150.210:8000/"
+  });
 
-export const addWishItem = item => {
-  console.log(item);
+export const addWishItem = (item, closeModal) => {
   axios.defaults.headers.common = {
     ...axios.defaults.headers.common,
     "Content-Type": "multipart/form-data"
   };
 
   return dispatch => {
-    instance
+    instance()
       .post(`create/`, item)
       .then(res => {
-        console.log(res);
-
         return res.data;
       })
       .then(data => {
         console.log(data);
         dispatch({ type: actionTypes.ADD_ITEM, payload: data });
       })
+      .then(() => closeModal())
       .catch(err => {
         console.log("addWishItem error", err.response);
 
@@ -42,7 +41,7 @@ export const addWishItem = item => {
 
 export const getWishItems = userId => {
   return dispatch => {
-    instance
+    instance()
       .get(`list/?user_id=${userId}`)
       .then(res => res.data)
       .then(data => {
@@ -65,17 +64,18 @@ export const getWishItems = userId => {
 };
 
 export const deleteWishItems = itemId => {
-  console.log(axios.defaults.headers.common);
+  console.log("item.item.id", itemId);
+
   return dispatch => {
-    instance
+    instance()
       .delete(`delete/${itemId}/`)
       .then(res => res.data)
       .then(data => {
         console.log(data);
-        dispatch({ type: actionTypes.DELETE_ITEMS, payload: data });
+        dispatch({ type: actionTypes.DELETE_ITEM, payload: itemId });
       })
       .catch(err => {
-        console.log("addWishItem error", err.response);
+        console.log("deleteWishItems error", err.response || err);
 
         showMessage({
           message:
